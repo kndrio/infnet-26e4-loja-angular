@@ -1,11 +1,10 @@
 import { Component, computed, input, model, output } from '@angular/core';
 import { CurrencyPipe, DatePipe, PercentPipe, UpperCasePipe } from '@angular/common';
 import { Produto } from '../models/produto';
-import { readonly } from '@angular/forms/signals';
-
+import { ParcelasPipe } from '../pipes/parcelas';
 
 @Component({
-  imports: [ CurrencyPipe, DatePipe, PercentPipe, UpperCasePipe],
+  imports: [ CurrencyPipe, DatePipe, PercentPipe, UpperCasePipe, ParcelasPipe],
   selector: 'app-produto-card',
   styleUrl: './produto-card.css',
   templateUrl: './produto-card.html',

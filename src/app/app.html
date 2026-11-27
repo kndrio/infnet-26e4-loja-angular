@@ -8,7 +8,7 @@
     <label  class="flex flex-col text-sm text-slate-700">
       Buscar
     </label>
-    <input [(ngModel)]="busca" placeholder="ex.: Café..."/>
+    <input class="rounded border border-slate-300 px-3 py-2" [(ngModel)]="busca" placeholder="ex.: Café..."/>
 
 
     <div lass="flex gap-2" role="group" aria-label="Categorias">
@@ -23,17 +23,34 @@
     </div>
   </section>
 
+  <p class="h-6 text-sm text-slate-500">
+    @if (emDestaque(); as nome) {Olhando agora: <b>{{ nome }}</b>}
+
+  </p>
+
 <section class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-label="Produtos">
   @for (p of filtrados(); track p.id; let i = $index, primeiro = $first) {
-    <article>
+    <article appDestaque [destaqueFixo]="primeiro" (destaqueMudou)="emDestaque.set($event ? p. nome : null)">
       <app-produto-card
       [produto]="p"
-
+      (adicionar)="noCarrinho($event)"
+      [favorito]="isfavorito(p.id)"
+      (favoritoChange)="setFavorito(p.id, $event)"
       />
     </article>
+  } @empty {
+    <p> Nenhum produto foi encontrado para "{{ busca() }}"</p>
   }
 </section>
 
-</main>
+<aside class="rounded-xl bg-slate-900 p-4 text-white" >
+@if(carrinho().length > 0){
+  <p>
+    {{carrinho().length}} item(s) no carrinho | Total: <b>{{total() | currency: 'BRL' }}</b>
+  </p>
+} @else {
+  <p>Selecione alguns itens para o seu carrinho!</p>
+}
+</aside>
 
-<router-outlet />
+</main>
